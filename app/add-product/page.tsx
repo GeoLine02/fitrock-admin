@@ -1,4 +1,5 @@
 import React from "react";
+import ProductDeepDive from "./components/DeepDive";
 
 export default function AddProduct() {
   return (
@@ -55,41 +56,47 @@ export default function AddProduct() {
         </div>
 
         {/* Upload Images */}
-        <div className="mb-6">
-          <label className="block text-sm font-bold text-gray-900 mb-3">
-            Upload Images
-          </label>
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 hover:border-gray-400 transition-colors">
-            <div className="space-y-2">
-              <div className="flex justify-center">
-                <svg
-                  className="w-12 h-12 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
+        <div className="flex">
+          <div className="mb-6 w-1/2">
+            <label className="block text-sm font-bold text-gray-900 mb-3">
+              Upload Images
+            </label>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center bg-gray-50 hover:border-gray-400 transition-colors">
+              <div className="w-full">
+                <div className="space-y-2  ">
+                  <div className="flex justify-center ">
+                    <svg
+                      className="w-12 h-50 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 4v16m8-8H4"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    id="file-upload"
                   />
-                </svg>
+
+                  <label
+                    htmlFor="file-upload"
+                    className="cursor-pointer text-gray-600 hover:text-gray-800"
+                  >
+                    Click to upload or drag and drop
+                  </label>
+                </div>
               </div>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                id="file-upload"
-              />
-              <label
-                htmlFor="file-upload"
-                className="cursor-pointer text-gray-600 hover:text-gray-800"
-              >
-                Click to upload or drag and drop
-              </label>
             </div>
           </div>
+          <ProductDeepDive />
         </div>
 
         {/* Action Buttons */}
@@ -108,60 +115,6 @@ export default function AddProduct() {
           </button>
         </div>
       </form>
-      <div className="px-5 ">
-        <div className="bg-white rounded-lg p-6 max-w-md">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
-            Product Deep Dive
-          </h2>
-
-          <div className="border-b border-gray-200 pb-3 mb-3">
-            <div className="grid grid-cols-3 gap-4">
-              <div className="font-medium text-gray-900 text-sm">Feature:</div>
-              <div className="font-medium text-gray-900 text-sm">
-                Specification
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Feature</div>
-              <div className="text-sm text-gray-700">Height Range</div>
-              <div className="text-sm text-gray-700">Specialistus</div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Weight Range</div>
-              <div className="text-sm text-gray-700">10-50 lbs</div>
-              <div className="text-sm text-gray-400">--</div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Material</div>
-              <div className="text-sm text-gray-400">--</div>
-              <div className="text-sm text-gray-400">--</div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Dimensions</div>
-              <div className="text-sm text-gray-400">--</div>
-              <div className="text-sm text-gray-400">--</div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Sdrano</div>
-              <div></div>
-              <div></div>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4 items-center">
-              <div className="text-sm text-gray-700">Warranty</div>
-              <div className="text-sm text-gray-400">--</div>
-              <div className="text-sm text-gray-400">--</div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
