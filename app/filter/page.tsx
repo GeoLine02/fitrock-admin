@@ -4,7 +4,7 @@ import React from "react";
 export default function FilterSection() {
   return (
     <div className="flex justify-center items-start min-h-screen p-4 sm:p-6 lg:p-10">
-      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 w-full max-w-[1000px]">
+      <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 w-full max-w-250">
         <h2 className="font-semibold text-base sm:text-lg mb-3 sm:mb-4">
           All Filters
         </h2>
