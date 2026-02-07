@@ -4,7 +4,7 @@ import ProductDeepDive from "./components/DeepDive";
 export default function AddProduct() {
   return (
     <div className="min-h-screen bg-gray-50  flex items-center justify-center p-4">
-      <form className="bg-white rounded-lg shadow-sm p-6 w-full max-w-[1000px]">
+      <form className="bg-white rounded-lg shadow-sm p-6 w-full max-w-250">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">
           Create New Product
         </h1>
