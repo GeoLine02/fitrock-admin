@@ -6,6 +6,7 @@ export interface Order {
   customer: {
     name: string;
     email: string;
+    
   };
   amount: {
     subtotal: number;

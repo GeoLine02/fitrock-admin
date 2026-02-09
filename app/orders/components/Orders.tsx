@@ -5,35 +5,92 @@ interface OrderTableProps {
   ordersdata: Order[];
 }
 
+const statusStyles: Record<Order["status"], { bg: string; text: string }> = {
+  Processing: {
+    bg: "bg-yellow-100",
+    text: "text-yellow-700",
+  },
+  Pending: {
+    bg: "bg-green-100",
+    text: "text-green-700",
+  },
+  Completed: {
+    bg: "bg-gray-200",
+    text: "text-gray-700",
+  },
+  Cancelled: {
+    bg: "bg-red-100",
+    text: "text-red-700",
+  },
+};
+
 export default function OrdersTable({ ordersdata }: OrderTableProps) {
   return (
     <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 w-full">
-      {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto rounded-lg border border-gray-400">
-        <table className="w-full text-sm border-collapse">
+      <div className="overflow-x-auto border rounded-lg">
+        <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-100 text-gray-600">
-              <th className="px-4 py-3 text-center font-medium">Order ID</th>
-              <th className="px-4 py-3 text-center font-medium">Customer</th>
-              <th className="px-4 py-3 text-center font-medium">Date</th>
-              <th className="px-4 py-3 text-center font-medium">Total</th>
-              <th className="px-4 py-3 text-center font-medium">Actions</th>
+            <tr className="bg-gray-50 text-gray-500 border-b">
+              <th className="px-4 py-3 text-left"></th>
+              <th className="px-4 py-3 text-left font-medium">Order ID</th>
+              <th className="px-4 py-3 text-left font-medium">Customer</th>
+              <th className="px-4 py-3 text-left font-medium">Date</th>
+              <th className="px-4 py-3 text-left font-medium">Total</th>
+              <th className="px-4 py-3 text-left font-medium">Actions</th>
             </tr>
           </thead>
+
           <tbody>
             {ordersdata.map((order) => (
               <tr
                 key={order.id}
                 className="border-b hover:bg-gray-50 transition"
               >
-                <td className="px-4 py-3 text-center">{order.id}</td>
-                <td className="px-4 py-3 text-center">{order.orderNumber}</td>
-                <td className="px-4 py-3 text-center">{order.createdAt}</td>
-                <td className="px-4 py-3 text-center">${order.amount.total}</td>
-                <td className="px-4 py-3 text-center">
-                  <button className="px-2 py-1 border rounded hover:bg-gray-100">
-                    Actions
-                  </button>
+                <td className="px-4 py-3">
+                  <input type="checkbox" />
+                </td>
+
+                {/* Order ID */}
+                <td className="px-4 py-3">
+                  <p className="font-semibold text-gray-800">
+                    #{order.orderNumber}
+                  </p>
+                  <p className="text-xs text-gray-400">#{order.id}</p>
+                </td>
+
+                {/* Customer */}
+                <td className="px-4 py-3">
+                  <p className="font-medium text-gray-800">
+                    {order.customer.name}
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    {order.customer.email}
+                  </p>
+                </td>
+
+                {/* Date */}
+                <td className="px-4 py-3 text-gray-600">{order.createdAt}</td>
+
+                {/* Total */}
+                <td className="px-4 py-3 font-semibold text-gray-800">
+                  ${order.amount.total}
+                </td>
+
+                {/* Actions */}
+                <td className="px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        statusStyles[order.status].bg
+                      } ${statusStyles[order.status].text}`}
+                    >
+                      {order.status}
+                    </span>
+
+                    <button className="text-gray-400 hover:text-gray-600 text-lg leading-none">
+                      ⋯
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -41,55 +98,19 @@ export default function OrdersTable({ ordersdata }: OrderTableProps) {
         </table>
       </div>
 
-      {/* Mobile Cards */}
-      <div className="md:hidden flex flex-col gap-4">
-        {ordersdata.map((order) => (
-          <div
-            key={order.id}
-            className="border rounded-lg p-4 shadow-sm bg-white"
-          >
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">Order ID:</span>
-              <span>{order.id}</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">Customer:</span>
-              <span>{order.orderNumber}</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">Email:</span>
-              <span>{order.customer.email}</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">Date:</span>
-              <span>{order.createdAt}</span>
-            </div>
-            <div className="flex justify-between mb-2">
-              <span className="font-medium">Total:</span>
-              <span>${order.amount.total}</span>
-            </div>
-            <button className="mt-2 w-full border rounded px-3 py-1.5 hover:bg-gray-100">
-              Actions
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination */}
+      {/* Footer */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 mt-4">
-        <span className="text-center sm:text-left">
-          Showing 1 to 6 of 600 entries
-        </span>
+        <span>Showing 1 to 6 of 500 entries</span>
         <div className="flex items-center gap-1">
-          <button className="border rounded px-3 py-1.5 hover:bg-gray-100 transition">
-            Previous
+          <button className="border rounded px-3 py-1 hover:bg-gray-100">
+            ‹ Previous
           </button>
-          <button className="border rounded px-3 py-1.5 bg-gray-100">1</button>
-          <button className="border rounded px-3 py-1.5 hover:bg-gray-100 transition">
+          <button className="border rounded px-3 py-1 bg-gray-100">1</button>
+          <button className="border rounded px-3 py-1 hover:bg-gray-100">
             2
           </button>
-          <button className="border rounded px-3 py-1.5 hover:bg-gray-100 transition">
-            Next
+          <button className="border rounded px-3 py-1 hover:bg-gray-100">
+            Next ›
           </button>
         </div>
       </div>
