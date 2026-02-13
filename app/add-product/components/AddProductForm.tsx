@@ -5,6 +5,7 @@ import { FormInput, FormTextarea, FormSelect } from "./index";
 import ImageUpload from "@/ui/Upload";
 import { addProductService } from "../services";
 import { AddProductData } from "../types";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 export default function AddProductForm() {
   const {
@@ -19,14 +20,19 @@ export default function AddProductForm() {
       price: null,
       categoryId: null,
       description: "",
-      discount: null,
+      discount: 0,
+      weight: 1,
+      quantity: 1,
     },
   });
 
   const onSubmit = async (data: AddProductData) => {
-    await addProductService(data);
+    const res = await addProductService(data);
 
-    reset();
+    if (res?.status === 201) {
+      toast.success("Product Created Successfully!");
+      reset();
+    }
   };
 
   const categoryOptions = [
@@ -68,6 +74,28 @@ export default function AddProductForm() {
               register={register("price")}
             />
 
+            <FormInput
+              type="number"
+              label="Weight"
+              placeholder="0"
+              register={register("weight")}
+              error={errors.weight}
+            />
+            <FormInput
+              type="number"
+              label="Discount"
+              placeholder="0%"
+              register={register("discount")}
+              error={errors.discount}
+            />
+            <FormInput
+              type="number"
+              label="Quantity"
+              placeholder="1"
+              register={register("quantity")}
+              error={errors.quantity}
+            />
+
             {/* Category */}
             <FormSelect
               label="Category"
@@ -107,6 +135,19 @@ export default function AddProductForm() {
           </div>
         </form>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 }
