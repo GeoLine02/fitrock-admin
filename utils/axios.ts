@@ -1,7 +1,16 @@
 import axios from "axios";
 
+const isServer = typeof window === "undefined";
+const isProduction = process.env.NODE_ENV === "production";
+
+const baseURL = isServer
+  ? isProduction
+    ? process.env.PROD_API_URL // absolute for production SSR
+    : "http://localhost:4001" // absolute for dev SSR (Next proxy)
+  : "/api"; // browser will handle relative URL
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:4001",
+  baseURL,
   withCredentials: true,
 });
 
