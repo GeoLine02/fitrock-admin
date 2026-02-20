@@ -1,5 +1,6 @@
 "use client";
 
+import api from "@/utils/axios";
 import {
   createContext,
   useContext,
@@ -29,10 +30,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     // Example: fetch current user on mount
     const fetchUser = async () => {
       try {
-        const res = await fetch("/user/me");
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data.user);
+        const res = await api.get("/user/me");
+        if (res.status === 200) {
+          console.log(res.data);
+          setUser(res.data);
         }
       } catch (error) {
         console.error("Failed to fetch user", error);
