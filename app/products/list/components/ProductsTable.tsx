@@ -1,14 +1,10 @@
 "use client";
 
-import { Box, Paper } from "@mui/material";
-import {
-  DataGrid,
-  GridColDef,
-  GridPaginationModel,
-  GridRowsProp,
-} from "@mui/x-data-grid";
 import { useState } from "react";
 import { refetchProducts } from "../services/index.client";
+import Table from "@/components/Table";
+import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { useRouter } from "next/navigation";
 
 interface ProductsTableProps {
   columns: GridColDef[];
@@ -21,9 +17,8 @@ export default function ProductsTable({
   rows,
   totalRows,
 }: ProductsTableProps) {
-  const [page, setPage] = useState(1);
   const [products, setProducts] = useState(rows);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const router = useRouter();
 
   const handleChangePage = async (newPage: number, newPerPage: number) => {
     const res = await refetchProducts(newPage + 1, newPerPage);
@@ -33,53 +28,27 @@ export default function ProductsTable({
     }
   };
 
-  const handlePaginationModelChange = (model: GridPaginationModel) => {
-    const newPage = model.page;
-    const newPageSize = model.pageSize;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleEdit = (row: any) => {
+    router.push(`/products/update/${row.id}`);
+  };
 
-    setPage(newPage);
-    setRowsPerPage(newPageSize);
-    handleChangePage(newPage, newPageSize);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDelete = async (row: any) => {
+    console.log("Delete", row);
+    // call delete API here
   };
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <Paper
-        elevation={3}
-        sx={{
-          height: "100%",
-          width: "100%",
-          borderRadius: 3,
-          overflow: "hidden",
-        }}
-      >
-        <DataGrid
-          rows={products}
-          columns={columns}
-          rowCount={totalRows}
-          initialState={{
-            pagination: {
-              paginationModel: { pageSize: rowsPerPage, page: page - 1 },
-            },
-          }}
-          pageSizeOptions={[5, 10, 20]}
-          onPaginationModelChange={handlePaginationModelChange}
-          checkboxSelection
-          paginationMode="server"
-          disableRowSelectionOnClick
-          autoHeight
-          sx={{
-            border: 0,
-            "& .MuiDataGrid-columnHeaders": {
-              backgroundColor: "#f5f5f5",
-              fontWeight: "bold",
-            },
-            "& .MuiDataGrid-root": {
-              minWidth: "100%",
-            },
-          }}
-        />
-      </Paper>
-    </Box>
+    <div>
+      <Table
+        columns={columns}
+        rows={products}
+        totalRows={totalRows}
+        handleChangePage={handleChangePage}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
+    </div>
   );
 }
