@@ -1,7 +1,7 @@
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
-import ProductsTable from "./components/ProductsTable";
 import { getProductsService } from "./services";
 import { Product } from "@/types/products";
+import ProductsTable from "./components/ProductsTable";
 
 export default async function ProductsList() {
   const page = 1;

@@ -1,4 +1,4 @@
-export interface AddProductData {
+export interface ProductData {
   name: string;
   description: string;
   categoryId: null | number;

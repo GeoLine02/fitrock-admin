@@ -1,40 +1,36 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { FormInput, FormTextarea, FormSelect } from "./index";
+import {
+  FormInput,
+  FormTextarea,
+  FormSelect,
+} from "../create/components/index";
 import ImageUpload from "@/ui/Upload";
-import { addProductService } from "../services";
-import { AddProductData } from "../types";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+import { ProductData } from "../create/types";
+import {
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormReset,
+} from "react-hook-form";
+import { ClipLoader } from "react-spinners";
 
-export default function AddProductForm() {
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<AddProductData>({
-    mode: "onBlur",
-    defaultValues: {
-      name: "",
-      price: null,
-      categoryId: null,
-      description: "",
-      discount: 0,
-      weight: 1,
-      quantity: 1,
-    },
-  });
+interface ProductFormProps {
+  onSubmit: (data: ProductData) => void;
+  handleSubmit: UseFormHandleSubmit<ProductData, ProductData>;
+  register: UseFormRegister<ProductData>;
+  reset: UseFormReset<ProductData>;
+  isSubmitting: boolean;
+  action: "create" | "update";
+}
 
-  const onSubmit = async (data: AddProductData) => {
-    const res = await addProductService(data);
-
-    if (res?.status === 201) {
-      toast.success("Product Created Successfully!");
-      reset();
-    }
-  };
-
+export default function ProductForm({
+  onSubmit,
+  register,
+  reset,
+  handleSubmit,
+  action,
+  isSubmitting,
+}: ProductFormProps) {
   const categoryOptions = [
     { value: "10", label: "10 kilo" },
     { value: "15", label: "15 kilo" },
@@ -50,17 +46,16 @@ export default function AddProductForm() {
           className="space-y-4 rounded-lg bg-white p-4 shadow-md sm:space-y-6 sm:p-6 lg:p-8"
         >
           <h1 className="text-xl font-bold text-gray-900 sm:text-2xl lg:text-3xl">
-            Create New Product
+            {action === "create" ? "Create New Product" : "Update Product"}
           </h1>
 
           {/* Form Grid */}
-          <div className="grid gap-4 sm:gap-5 lg:gap-6 grid-cols-1 sm:grid-cols-2">
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
             {/* Product Name */}
             <FormInput
               label="Product Name"
               placeholder="Enter product name"
               fullWidth={true}
-              error={errors.name}
               register={register("name")}
             />
 
@@ -70,7 +65,6 @@ export default function AddProductForm() {
               label="Price (USD)"
               placeholder="0.00"
               step="0.01"
-              error={errors.price}
               register={register("price")}
             />
 
@@ -79,28 +73,24 @@ export default function AddProductForm() {
               label="Weight"
               placeholder="0"
               register={register("weight")}
-              error={errors.weight}
             />
             <FormInput
               type="number"
               label="Discount"
               placeholder="0%"
               register={register("discount")}
-              error={errors.discount}
             />
             <FormInput
               type="number"
               label="Quantity"
               placeholder="1"
               register={register("quantity")}
-              error={errors.quantity}
             />
 
             {/* Category */}
             <FormSelect
               label="Category"
               options={categoryOptions}
-              error={errors.categoryId}
               register={register("categoryId")}
             />
 
@@ -108,7 +98,6 @@ export default function AddProductForm() {
             <FormTextarea
               label="Description"
               placeholder="Describe your product..."
-              error={errors.description}
               register={register("description")}
               fullWidth={true}
             />
@@ -123,7 +112,13 @@ export default function AddProductForm() {
               type="submit"
               className="flex-1 rounded-lg bg-orange-500 px-4 py-2.5 sm:py-3 font-semibold text-white transition-all hover:bg-orange-600 active:scale-95 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Save Product
+              {isSubmitting ? (
+                <ClipLoader />
+              ) : action === "create" ? (
+                "Create Product"
+              ) : (
+                "Update Product"
+              )}
             </button>
             <button
               type="reset"
@@ -135,19 +130,6 @@ export default function AddProductForm() {
           </div>
         </form>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </div>
   );
 }
