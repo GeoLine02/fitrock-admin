@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { UserProvider } from "@/providers/UserProvider";
 import ThemeRegistry from "./ThemeRegistry";
+import SideMenu from "@/components/sideMenu/SideMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +30,10 @@ export default function RootLayout({
       <ThemeRegistry>
         <UserProvider>
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen`}
           >
-            {children}
+            <SideMenu />
+            <main className="flex-1 p-4 overflow-auto">{children}</main>
           </body>
         </UserProvider>
       </ThemeRegistry>
