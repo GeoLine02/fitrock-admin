@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import classNames from "classnames";
 import { Route } from "@/types/sideMenu";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 interface NavItemProps {
   route: Route;
@@ -22,7 +23,6 @@ export default function NavItem({ route, isOpen }: NavItemProps) {
   const firstHref =
     route.subRoutes.length > 0 ? route.subRoutes[0].href : route.href;
   const Icon = route.icon;
-
   return (
     <div>
       <Link
@@ -37,7 +37,9 @@ export default function NavItem({ route, isOpen }: NavItemProps) {
         {isOpen && <span className="ml-3">{route.name}</span>}
 
         {isOpen && route.subRoutes.length > 0 && (
-          <span className="ml-auto">{collapsed ? "▾" : "▴"}</span>
+          <span className="ml-auto">
+            {collapsed ? <ChevronDown /> : <ChevronUp />}
+          </span>
         )}
       </Link>
 
@@ -48,7 +50,7 @@ export default function NavItem({ route, isOpen }: NavItemProps) {
             <Link
               key={sub.href}
               href={sub.href}
-              className="text-sm p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
+              className="text-sm p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded transition-colors"
             >
               {sub.name}
             </Link>

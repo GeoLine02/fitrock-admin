@@ -30,10 +30,10 @@ export default function RootLayout({
       <ThemeRegistry>
         <UserProvider>
           <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
+            className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen`}
           >
             <SideMenu />
-            <main className="w-full">{children}</main>
+            <main className="flex-1 p-4 overflow-auto">{children}</main>
           </body>
         </UserProvider>
       </ThemeRegistry>

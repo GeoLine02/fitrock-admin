@@ -61,7 +61,7 @@ export default async function ProductsList() {
   }));
 
   return (
-    <div className="p-4 space-y-4">
+    <div className="space-y-4 w-full">
       <h1 className="text-3xl font font-bold">Products List</h1>
       <ProductsTable totalRows={totalRows} columns={columns} rows={rows} />
     </div>

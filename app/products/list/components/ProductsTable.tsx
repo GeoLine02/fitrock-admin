@@ -67,11 +67,15 @@ export default function ProductsTable({
           checkboxSelection
           paginationMode="server"
           disableRowSelectionOnClick
+          autoHeight
           sx={{
             border: 0,
             "& .MuiDataGrid-columnHeaders": {
               backgroundColor: "#f5f5f5",
               fontWeight: "bold",
+            },
+            "& .MuiDataGrid-root": {
+              minWidth: "100%",
             },
           }}
         />
