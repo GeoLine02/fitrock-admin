@@ -5,6 +5,7 @@ import { refetchProducts } from "../services/index.client";
 import Table from "@/components/Table";
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { useRouter } from "next/navigation";
+import DeleteProductModal from "./DeleteProductModal";
 
 interface ProductsTableProps {
   columns: GridColDef[];
@@ -18,6 +19,10 @@ export default function ProductsTable({
   totalRows,
 }: ProductsTableProps) {
   const [products, setProducts] = useState(rows);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(
+    null,
+  );
   const router = useRouter();
 
   const handleChangePage = async (newPage: number, newPerPage: number) => {
@@ -34,9 +39,9 @@ export default function ProductsTable({
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleDelete = async (row: any) => {
-    console.log("Delete", row);
-    // call delete API here
+  const handleToggleDeleteModal = async (row: any) => {
+    setSelectedProductId(row.id);
+    setIsDeleteModalOpen((prev) => !prev);
   };
 
   return (
@@ -47,8 +52,15 @@ export default function ProductsTable({
         totalRows={totalRows}
         handleChangePage={handleChangePage}
         handleEdit={handleEdit}
-        handleDelete={handleDelete}
+        handleToggleDeleteModal={handleToggleDeleteModal}
       />
+      {isDeleteModalOpen && (
+        <DeleteProductModal
+          productId={selectedProductId as number}
+          onClose={() => setIsDeleteModalOpen(false)}
+          setProducts={setProducts}
+        />
+      )}
     </div>
   );
 }

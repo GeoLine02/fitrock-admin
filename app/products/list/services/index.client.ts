@@ -12,3 +12,13 @@ export const refetchProducts = async (page: number, limit: number) => {
     throw error;
   }
 };
+
+export const deleteProduct = async (productId: number) => {
+  try {
+    const res = await api.delete(`/products/${productId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
