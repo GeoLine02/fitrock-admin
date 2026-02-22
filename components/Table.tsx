@@ -20,7 +20,7 @@ interface TableProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleEdit: (row: any) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleDelete: (row: any) => void;
+  handleToggleDeleteModal: (row: any) => void;
 }
 
 export default function Table({
@@ -29,7 +29,7 @@ export default function Table({
   totalRows,
   handleChangePage,
   handleEdit,
-  handleDelete,
+  handleToggleDeleteModal,
 }: TableProps) {
   const [page, setPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -60,7 +60,7 @@ export default function Table({
         key={params.id}
         icon={<DeleteIcon />}
         label="Delete"
-        onClick={() => handleDelete(params.row)}
+        onClick={() => handleToggleDeleteModal(params.row)}
         showInMenu={false}
       />,
     ],
