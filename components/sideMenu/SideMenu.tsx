@@ -34,7 +34,7 @@ export default function SideMenu() {
       {/* Sidebar */}
       <div
         className={classNames(
-          "fixed top-0 left-0 h-screen bg-white dark:bg-gray-800 border-r border-gray-200 text-white dark:border-gray-700 flex flex-col w-full transition-transform z-40",
+          "fixed top-0 left-0 h-screen bg-white dark:bg-gray-800 border-r border-gray-200 text-white dark:border-gray-700 flex flex-col w-full transition-all duration-200 z-40",
           {
             "md:relative md:translate-x-0": true,
             "-translate-x-full": !mobileOpen && isMobile,
