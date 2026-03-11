@@ -14,19 +14,25 @@ interface NavItemProps {
 export default function NavItem({ route, isOpen }: NavItemProps) {
   const [collapsed, setCollapsed] = useState(true);
 
-  const handleClick = () => {
-    if (route.subRoutes.length > 0) {
-      setCollapsed(!collapsed);
+  const hasSubRoutes = route.subRoutes.length > 0;
+  const firstHref = hasSubRoutes ? route.subRoutes[0].href : route.href;
+  const Icon = route.icon;
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (hasSubRoutes) {
+      if (isOpen) {
+        // Sidebar open → just toggle submenu
+        e.preventDefault();
+        setCollapsed(!collapsed);
+      }
+      // Sidebar closed → allow navigation to firstHref
     }
   };
 
-  const firstHref =
-    route.subRoutes.length > 0 ? route.subRoutes[0].href : route.href;
-  const Icon = route.icon;
   return (
     <div>
       <Link
-        href={firstHref}
+        href={hasSubRoutes && !isOpen ? firstHref : route.href}
         className={classNames(
           "flex items-center p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors rounded",
           { "justify-center": !isOpen },
@@ -36,7 +42,7 @@ export default function NavItem({ route, isOpen }: NavItemProps) {
         <Icon className="w-5 h-5" />
         {isOpen && <span className="ml-3">{route.name}</span>}
 
-        {isOpen && route.subRoutes.length > 0 && (
+        {isOpen && hasSubRoutes && (
           <span className="ml-auto">
             {collapsed ? <ChevronDown /> : <ChevronUp />}
           </span>
@@ -44,7 +50,7 @@ export default function NavItem({ route, isOpen }: NavItemProps) {
       </Link>
 
       {/* SubRoutes */}
-      {route.subRoutes.length > 0 && !collapsed && isOpen && (
+      {hasSubRoutes && !collapsed && isOpen && (
         <div className="ml-8 mt-1 flex flex-col space-y-1">
           {route.subRoutes.map((sub) => (
             <Link

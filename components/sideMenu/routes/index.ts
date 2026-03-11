@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package } from "lucide-react";
+import { Filter, LayoutDashboard, Package } from "lucide-react";
 
 export const routes = [
   {
@@ -14,6 +14,15 @@ export const routes = [
     subRoutes: [
       { name: "List", href: "/products/list" },
       { name: "Create", href: "/products/create" },
+    ],
+  },
+  {
+    name: "Filters",
+    href: "/filters",
+    icon: Filter,
+    subRoutes: [
+      { name: "List", href: "/filters/list" },
+      { name: "Create", href: "/filters/create" },
     ],
   },
 ];

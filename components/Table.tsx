@@ -1,5 +1,6 @@
 "use client";
 
+import { TableRow } from "@/types/table";
 import { Box, Paper } from "@mui/material";
 import {
   DataGrid,
@@ -17,10 +18,8 @@ interface TableProps {
   rows: GridRowsProp;
   totalRows: number;
   handleChangePage: (newPage: number, newPerPage: number) => Promise<void>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleEdit: (row: any) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handleToggleDeleteModal: (row: any) => void;
+  handleEdit: (row: TableRow) => void;
+  handleToggleDeleteModal: (row: TableRow) => void;
 }
 
 export default function Table({
