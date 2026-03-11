@@ -4,7 +4,7 @@ import { UseFormRegisterReturn, FieldError } from "react-hook-form";
 interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: FieldError;
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   fullWidth?: boolean;
   helperText?: string;
 }

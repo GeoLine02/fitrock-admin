@@ -1,45 +1,41 @@
 "use client";
 
-import { useState } from "react";
-import { refetchProducts } from "../services/index.client";
 import Table from "@/components/Table";
 import { GridColDef, GridRowsProp } from "@mui/x-data-grid";
+import { useState } from "react";
+import { refetchFilters } from "../services/index.client";
 import { useRouter } from "next/navigation";
-import DeleteProductModal from "./DeleteProductModal";
+import DeleteFilterModal from "./DeleteFilterModal";
 import { TableRow } from "@/types/table";
 
-interface ProductsTableProps {
+interface FiltersTableProps {
   columns: GridColDef[];
   rows: GridRowsProp;
   totalRows: number;
 }
 
-export default function ProductsTable({
+export default function FiltersTable({
   columns,
   rows,
   totalRows,
-}: ProductsTableProps) {
-  const [products, setProducts] = useState(rows);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState<number | null>(
-    null,
-  );
+}: FiltersTableProps) {
   const router = useRouter();
-
+  const [filters, setFilters] = useState(rows);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedFilterId, setSelectedFilterId] = useState<number | null>(null);
   const handleChangePage = async (newPage: number, newPerPage: number) => {
-    const res = await refetchProducts(newPage + 1, newPerPage);
-
+    const res = await refetchFilters(newPage, newPerPage);
     if (res.status === 200) {
-      setProducts(res.data.products);
+      setFilters(res.data.filters);
     }
   };
 
   const handleEdit = (row: TableRow) => {
-    router.push(`/products/update/${row.id}`);
+    router.push(`/filters/update/${row.id}`);
   };
 
-  const handleToggleDeleteModal = async (row: TableRow) => {
-    setSelectedProductId(row.id);
+  const handleToggleDeleteModal = (row: TableRow) => {
+    setSelectedFilterId(row.id);
     setIsDeleteModalOpen((prev) => !prev);
   };
 
@@ -47,17 +43,17 @@ export default function ProductsTable({
     <div>
       <Table
         columns={columns}
-        rows={products}
-        totalRows={totalRows}
         handleChangePage={handleChangePage}
         handleEdit={handleEdit}
         handleToggleDeleteModal={handleToggleDeleteModal}
+        rows={filters}
+        totalRows={totalRows}
       />
       {isDeleteModalOpen && (
-        <DeleteProductModal
-          productId={selectedProductId as number}
+        <DeleteFilterModal
+          filterId={selectedFilterId as number}
           onClose={() => setIsDeleteModalOpen(false)}
-          setProducts={setProducts}
+          setFilters={setFilters}
         />
       )}
     </div>
